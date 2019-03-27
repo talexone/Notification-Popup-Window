@@ -57,6 +57,8 @@ namespace Tulpep.NotificationWindow
         private double opacityStop;
         private int realAnimationDuration;
         private System.Diagnostics.Stopwatch sw;
+        private int buttonLeft = 10;
+        private int buttonTop = 60;
 
         #region Properties
 
@@ -363,6 +365,29 @@ namespace Tulpep.NotificationWindow
             tmrAnimation.Stop();
             tmrWait.Stop();
             frmPopup.Hide();
+        }
+
+        private void Hide_Event(object sender, EventArgs e)
+        {
+            Hide();
+        }
+
+        public void AddButton(String caption, int tag, EventHandler action)
+        {
+            Button button = new Button();
+            button.Text = caption;
+            button.Click += action;
+            button.Tag = tag;
+            AddButton(button);
+        }
+
+        public void AddButton(Button button)
+        {
+            button.Top = buttonTop;
+            button.Left = buttonLeft;
+            button.Click += Hide_Event;
+            frmPopup.Controls.Add(button);
+            buttonLeft = buttonLeft + button.Width + 10;
         }
 
         /// <summary>
